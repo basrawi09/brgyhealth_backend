@@ -20,6 +20,8 @@ def create_consultation(
 
         consultation_date=data.consultation_date,
 
+        consultation_time=data.consultation_time,
+
         patient_id=data.patient_id
 
     )
@@ -34,14 +36,13 @@ def create_consultation(
 
         db.query(Consultation)
 
-        .options(joinedload(Consultation.patient))
+        .options(
+            joinedload(Consultation.patient)
+        )
 
         .filter(
-
             Consultation.consultation_id ==
-
             new_consultation.consultation_id
-
         )
 
         .first()
@@ -62,9 +63,12 @@ def get_all_consultations(
         db.query(Consultation)
 
         .options(
-
             joinedload(Consultation.patient)
+        )
 
+        .order_by(
+            Consultation.consultation_date.desc(),
+            Consultation.consultation_time.asc()
         )
 
         .all()
@@ -86,17 +90,12 @@ def get_consultation_by_id(
         db.query(Consultation)
 
         .options(
-
             joinedload(Consultation.patient)
-
         )
 
         .filter(
-
             Consultation.consultation_id ==
-
             consultation_id
-
         )
 
         .first()
@@ -128,6 +127,8 @@ def update_consultation(
     consultation.medicine = data.medicine
 
     consultation.consultation_date = data.consultation_date
+
+    consultation.consultation_time = data.consultation_time
 
     db.commit()
 

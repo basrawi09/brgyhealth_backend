@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, time
 
 
 # ==========================================
@@ -31,6 +31,8 @@ class ConsultationCreate(BaseModel):
 
     consultation_date: date
 
+    consultation_time: time
+
     patient_id: int
 
 
@@ -46,6 +48,8 @@ class ConsultationUpdate(BaseModel):
 
     consultation_date: date
 
+    consultation_time: time
+
 
 # ==========================================
 # Response
@@ -60,6 +64,8 @@ class ConsultationResponse(BaseModel):
     medicine: str
 
     consultation_date: date
+
+    consultation_time: time
 
     patient_id: int
 

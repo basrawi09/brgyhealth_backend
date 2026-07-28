@@ -1,14 +1,20 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Date,
+    Time,
+    ForeignKey
+)
+
 from sqlalchemy.orm import relationship
 
 from app.database import Base
 
 
-
 class Consultation(Base):
 
     __tablename__ = "consultation"
-
 
     consultation_id = Column(
         Integer,
@@ -16,32 +22,31 @@ class Consultation(Base):
         index=True
     )
 
-
     diagnosis = Column(
         String(100),
         nullable=False
     )
-
 
     medicine = Column(
         String(100),
         nullable=False
     )
 
-
     consultation_date = Column(
         Date,
         nullable=False
     )
 
+    consultation_time = Column(
+        Time,
+        nullable=False
+    )
 
     patient_id = Column(
         Integer,
         ForeignKey("patient.patient_id"),
         nullable=False
     )
-
-
 
     # Relationship with Patient
 

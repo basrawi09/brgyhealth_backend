@@ -9,7 +9,10 @@ from .dashboard_schemas import (
     DashboardStats,
     ConsultationPerPatient,
     StaffPositionDistribution,
-    DashboardRecent
+    DashboardRecent,
+    TodaySchedule,
+    WeeklyConsultation,
+    TopDiagnosis
 )
 
 router = APIRouter(
@@ -61,6 +64,34 @@ def staff_position_distribution(
 
 
 # ==========================================
+# Weekly Consultation Analytics
+# ==========================================
+@router.get(
+    "/weekly-consultations",
+    response_model=list[WeeklyConsultation]
+)
+def weekly_consultations(
+    db: Session = Depends(get_db)
+):
+
+    return dashboard_crud.get_weekly_consultations(db)
+
+
+# ==========================================
+# Top Diagnoses
+# ==========================================
+@router.get(
+    "/top-diagnoses",
+    response_model=list[TopDiagnosis]
+)
+def top_diagnoses(
+    db: Session = Depends(get_db)
+):
+
+    return dashboard_crud.get_top_diagnoses(db)
+
+
+# ==========================================
 # Recent Activity
 # ==========================================
 @router.get(
@@ -72,3 +103,17 @@ def recent_activity(
 ):
 
     return dashboard_crud.get_recent_activity(db)
+
+
+# ==========================================
+# Today's Consultation Schedule
+# ==========================================
+@router.get(
+    "/today-schedule",
+    response_model=list[TodaySchedule]
+)
+def today_schedule(
+    db: Session = Depends(get_db)
+):
+
+    return dashboard_crud.get_today_schedule(db)
