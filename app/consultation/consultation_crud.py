@@ -168,7 +168,21 @@ def update_consultation(
 
     db.refresh(consultation)
 
-    return consultation
+    return (
+
+        db.query(Consultation)
+
+        .options(
+            joinedload(Consultation.patient)
+        )
+
+        .filter(
+            Consultation.consultation_id == consultation_id
+        )
+
+        .first()
+
+    )
 
 
 # ==========================================

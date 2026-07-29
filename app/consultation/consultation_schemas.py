@@ -9,13 +9,10 @@ from datetime import date, time
 class PatientInfo(BaseModel):
 
     patient_id: int
-
     firstname: str
-
     lastname: str
 
     class Config:
-
         from_attributes = True
 
 
@@ -26,13 +23,9 @@ class PatientInfo(BaseModel):
 class ConsultationCreate(BaseModel):
 
     diagnosis: str
-
     medicine: str
-
     consultation_date: date
-
     consultation_time: time
-
     patient_id: int
 
 
@@ -43,12 +36,10 @@ class ConsultationCreate(BaseModel):
 class ConsultationUpdate(BaseModel):
 
     diagnosis: str
-
     medicine: str
-
     consultation_date: date
-
     consultation_time: time
+    patient_id: int
 
 
 # ==========================================
@@ -58,19 +49,12 @@ class ConsultationUpdate(BaseModel):
 class ConsultationResponse(BaseModel):
 
     consultation_id: int
-
     diagnosis: str
-
     medicine: str
-
     consultation_date: date
-
     consultation_time: time
-
     patient_id: int
-
     patient: PatientInfo
 
     class Config:
-
         from_attributes = True
