@@ -1,3 +1,5 @@
+from datetime import date
+
 from sqlalchemy.orm import Session, joinedload
 
 from .consultation_models import Consultation
@@ -77,6 +79,36 @@ def get_all_consultations(
 
 
 # ==========================================
+# CALENDAR
+# ==========================================
+
+def get_calendar_schedule(
+    db: Session,
+    selected_date: date
+):
+
+    return (
+
+        db.query(Consultation)
+
+        .options(
+            joinedload(Consultation.patient)
+        )
+
+        .filter(
+            Consultation.consultation_date == selected_date
+        )
+
+        .order_by(
+            Consultation.consultation_time.asc()
+        )
+
+        .all()
+
+    )
+
+
+# ==========================================
 # READ ONE
 # ==========================================
 
@@ -129,6 +161,8 @@ def update_consultation(
     consultation.consultation_date = data.consultation_date
 
     consultation.consultation_time = data.consultation_time
+
+    consultation.patient_id = data.patient_id
 
     db.commit()
 

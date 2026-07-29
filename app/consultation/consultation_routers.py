@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -20,7 +22,6 @@ router = APIRouter(
 
 # ==========================================
 # CREATE
-# ADMIN + STAFF
 # ==========================================
 
 @router.post("/", response_model=ConsultationResponse)
@@ -38,7 +39,6 @@ def create_consultation(
 
 # ==========================================
 # READ ALL
-# ADMIN + STAFF
 # ==========================================
 
 @router.get("/", response_model=list[ConsultationResponse])
@@ -51,8 +51,40 @@ def read_consultations(
 
 
 # ==========================================
+# CALENDAR SCHEDULE
+# ==========================================
+
+@router.get("/calendar/")
+def calendar_schedule(
+    date_selected: date,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_staff_or_admin)
+):
+
+    consultations = consultation_crud.get_calendar_schedule(
+        db,
+        date_selected
+    )
+
+    return [
+
+        {
+            "consultation_id": c.consultation_id,
+            "patient_id": c.patient.patient_id,
+            "patient_name": f"{c.patient.firstname} {c.patient.lastname}",
+            "consultation_date": c.consultation_date,
+            "consultation_time": c.consultation_time,
+            "diagnosis": c.diagnosis,
+            "medicine": c.medicine
+        }
+
+        for c in consultations
+
+    ]
+
+
+# ==========================================
 # READ ONE
-# ADMIN + STAFF
 # ==========================================
 
 @router.get("/{id}", response_model=ConsultationResponse)
@@ -79,7 +111,6 @@ def read_one(
 
 # ==========================================
 # UPDATE
-# ADMIN + STAFF
 # ==========================================
 
 @router.put("/{id}", response_model=ConsultationResponse)
@@ -108,7 +139,6 @@ def update(
 
 # ==========================================
 # DELETE
-# ADMIN + STAFF
 # ==========================================
 
 @router.delete("/{id}")
