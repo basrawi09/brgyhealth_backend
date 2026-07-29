@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -6,9 +7,7 @@ from pydantic import BaseModel
 # ==========================================
 
 class LoginRequest(BaseModel):
-
     username: str
-
     password: str
 
 
@@ -17,9 +16,7 @@ class LoginRequest(BaseModel):
 # ==========================================
 
 class LoginResponse(BaseModel):
-
     access_token: str
-
     token_type: str = "bearer"
 
 
@@ -28,13 +25,8 @@ class LoginResponse(BaseModel):
 # ==========================================
 
 class CurrentUser(BaseModel):
-
     user_id: int
-
     username: str
-
     role: str
-
-    staff_id: int
-
+    staff_id: Optional[int] = None
     is_active: bool

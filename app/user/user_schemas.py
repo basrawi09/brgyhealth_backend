@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, ConfigDict
 
 
@@ -10,7 +11,7 @@ class UserBase(BaseModel):
     username: str
     role: str
     is_active: bool
-    staff_id: int
+    staff_id: Optional[int] = None
 
 
 # ==========================
@@ -22,7 +23,7 @@ class UserCreate(BaseModel):
     username: str
     password: str
     role: str
-    staff_id: int
+    staff_id: Optional[int] = None
 
 
 # ==========================
